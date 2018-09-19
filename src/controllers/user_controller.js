@@ -42,6 +42,7 @@ export const createUser = (req, res, next) => {
         .then((beep) => {
           res.send(beep);
           sendWelcome(phoneNumber);
+          console.log(`Created user with number ${phoneNumber}`);
         })
         .catch((boop) => {
           res.status(500).json({ boop });
@@ -61,7 +62,8 @@ export const deleteUser = (req, res, next) => {
     if (err) {
       res.send(`Encountered error while deleting phone number${phoneNumber}\n`);
     } else {
-      res.send(`Successfully deleted phone number${phoneNumber}\n`);
+      res.send('Successfully deleted phone number\n');
+      console.log(`Created user with number ${phoneNumber}`);
     }
   });
 };
