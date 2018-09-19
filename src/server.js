@@ -6,11 +6,9 @@ import path from 'path';
 import morgan from 'morgan';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
-import Twitter from 'twitter';
-import googleNLP from '@google-cloud/language';
-import { sendMessageToUsers } from './controllers/user_controller';
 
 import apiRouter from './router';
+import { checkMostRecentTweet } from './controllers/tweet_controller';
 
 dotenv.config({ silent: true });
 
@@ -56,58 +54,7 @@ app.get('/', (req, res) => {
 const port = process.env.PORT || 9090;
 app.listen(port);
 
-const client = new Twitter({
-  consumer_key: process.env.CONSUMER_KEY,
-  consumer_secret: process.env.CONSUMER_SECRET_KEY,
-  access_token_key: process.env.ACCESS_TOKEN_KEY,
-  access_token_secret: process.env.ACCESS_TOKEN_SECRET_KEY,
-});
-
-// Instantiates a new google NLP client
-const googleClient = new googleNLP.LanguageServiceClient({
-  credentials: JSON.parse(process.env.NLP_API_KEY),
-  project_id: 'memur-208402',
-});
-
-function analyzeText(text) {
-  const document = {
-    content: text,
-    type: 'PLAIN_TEXT',
-  };
-  googleClient.analyzeSentiment({ document }).then((results) => {
-    const sentiment = results[0].documentSentiment;
-    if (sentiment.score <= -0.5) {
-      console.log('Twumpy is vewy gwumpy!');
-      console.log(`Sentiment score: ${sentiment.score}`);
-      sendMessageToUsers('Twumpy is vewy gwumpy!');
-    } else if (sentiment.score < 0) {
-      console.log('Twumpy is gwumpy!');
-      console.log(`Sentiment score: ${sentiment.score}`);
-      sendMessageToUsers('Twumpy is gwumpy!');
-    } else {
-      console.log('Trump is not grumpy!');
-    }
-  })
-    .catch((err) => {
-      console.error('ERROR:', err);
-    });
-}
-
-let cachedTweet = '';
-function checkMostRecentTweet() {
-  const params = { screen_name: 'realDonaldTrump', count: 1 };
-  client.get('statuses/user_timeline', params, (error, tweets, response) => {
-    if (!error && cachedTweet !== tweets[0].text) {
-      cachedTweet = tweets[0].text;
-      analyzeText(cachedTweet);
-    } else if (!error) {
-      console.log('No new tweets.');
-      console.log(tweets[0].text);
-    } else {
-      console.log(`Error: ${error}`);
-    }
-  });
-}
+// we check for new tweets every 10 seconds
 setInterval(checkMostRecentTweet, 10 * 1000);
 
 console.log(`listening on: ${port}`);
