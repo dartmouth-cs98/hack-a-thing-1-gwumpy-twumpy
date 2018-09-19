@@ -66,7 +66,7 @@ const client = new Twitter({
 // Instantiates a new google NLP client
 const googleClient = new googleNLP.LanguageServiceClient({
   credentials: JSON.parse(process.env.NLP_API_KEY),
-  project_id: 'memur-208402'
+  project_id: 'memur-208402',
 });
 
 function analyzeText(text) {
@@ -74,35 +74,36 @@ function analyzeText(text) {
     content: text,
     type: 'PLAIN_TEXT',
   };
-  googleClient.analyzeSentiment({document: document}).then(results => {
+  googleClient.analyzeSentiment({ document }).then((results) => {
     const sentiment = results[0].documentSentiment;
-    if (sentiment.score <= -.5) {
+    if (sentiment.score <= -0.5) {
       console.log('Twumpy is vewy gwumpy!');
       console.log(`Sentiment score: ${sentiment.score}`);
-    }
-    else if (sentiment.score < 0) {
+      sendMessageToUsers('Twumpy is vewy gwumpy!');
+    } else if (sentiment.score < 0) {
       console.log('Twumpy is gwumpy!');
       console.log(`Sentiment score: ${sentiment.score}`);
+      sendMessageToUsers('Twumpy is gwumpy!');
+    } else {
+      console.log('Trump is not grumpy!');
     }
   })
-  .catch(err => {
-    console.error('ERROR:', err);
-  });
+    .catch((err) => {
+      console.error('ERROR:', err);
+    });
 }
 
-var cachedTweet = '';
+let cachedTweet = '';
 function checkMostRecentTweet() {
   const params = { screen_name: 'realDonaldTrump', count: 1 };
   client.get('statuses/user_timeline', params, (error, tweets, response) => {
-    if (!error && cachedTweet != tweets[0].text) {
+    if (!error && cachedTweet !== tweets[0].text) {
       cachedTweet = tweets[0].text;
       analyzeText(cachedTweet);
-    }
-    else if (!error) {
-      console.log("No new tweets.");
+    } else if (!error) {
+      console.log('No new tweets.');
       console.log(tweets[0].text);
-    }
-    else {
+    } else {
       console.log(`Error: ${error}`);
     }
   });
