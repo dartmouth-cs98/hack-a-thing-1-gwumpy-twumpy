@@ -64,7 +64,10 @@ const client = new Twitter({
 });
 
 // Instantiates a new google NLP client
-const googleClient = new googleNLP.LanguageServiceClient();
+const googleClient = new googleNLP.LanguageServiceClient({
+  credentials: JSON.parse(process.env.NLP_API_KEY),
+  project_id: 'memur-208402'
+});
 
 function analyzeText(text) {
   const document = {
@@ -97,6 +100,7 @@ function checkMostRecentTweet() {
     }
     else if (!error) {
       console.log("No new tweets.");
+      console.log(tweets[0].text);
     }
     else {
       console.log(`Error: ${error}`);
