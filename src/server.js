@@ -95,11 +95,14 @@ function checkMostRecentTweet() {
       cachedTweet = tweets[0].text;
       analyzeText(cachedTweet);
     }
-    else {
+    else if (!error) {
       console.log("No new tweets.");
+    }
+    else {
+      console.log(`Error: ${error}`);
     }
   });
 }
-setInterval(checkMostRecentTweet, 1 * 2000);
+setInterval(checkMostRecentTweet, 10 * 1000);
 
 console.log(`listening on: ${port}`);

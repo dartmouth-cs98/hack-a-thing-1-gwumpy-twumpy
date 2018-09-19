@@ -47,7 +47,7 @@ export const sendMessageToUsers = (message) => {
   UserModel.find({})
     .then((result) => {
       result.forEach((user) => {
-        // send text to element.phoneNumber
+        // send text to user.phoneNumber
         console.log(user);
       });
     })
