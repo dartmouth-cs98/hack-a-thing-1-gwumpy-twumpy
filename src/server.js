@@ -8,7 +8,7 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 
 import apiRouter from './router';
-import { checkMostRecentTweet } from './controllers/tweet_controller';
+import checkMostRecentTweet from './controllers/tweet_controller';
 
 dotenv.config({ silent: true });
 
