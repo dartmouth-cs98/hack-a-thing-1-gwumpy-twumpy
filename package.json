@@ -18,6 +18,7 @@
     "yarn": "^1.6.0"
   },
   "dependencies": {
+    "@google-cloud/language": "^1.2.0",
     "aws-sdk": "^2.247.1",
     "axios": "^0.18.0",
     "babel-cli": "^6.26.0",

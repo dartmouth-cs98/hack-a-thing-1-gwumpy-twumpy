@@ -7,6 +7,7 @@ import morgan from 'morgan';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import Twitter from 'twitter';
+import googleNLP from '@google-cloud/language';
 import { sendMessageToUsers } from './controllers/user_controller';
 
 import apiRouter from './router';
