@@ -100,6 +100,6 @@ function checkMostRecentTweet() {
     }
   });
 }
-setInterval(checkMostRecentTweet, 1 * 1000);
+setInterval(checkMostRecentTweet, 1 * 2000);
 
 console.log(`listening on: ${port}`);
