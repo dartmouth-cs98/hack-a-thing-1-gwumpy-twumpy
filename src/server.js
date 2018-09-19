@@ -63,14 +63,43 @@ const client = new Twitter({
   access_token_secret: process.env.ACCESS_TOKEN_SECRET_KEY,
 });
 
-function alertUsersOfTweet() {
+// Instantiates a new google NLP client
+const googleClient = new googleNLP.LanguageServiceClient();
+
+function analyzeText(text) {
+  const document = {
+    content: text,
+    type: 'PLAIN_TEXT',
+  };
+  googleClient.analyzeSentiment({document: document}).then(results => {
+    const sentiment = results[0].documentSentiment;
+    if (sentiment.score <= -.5) {
+      console.log('Twumpy is vewy gwumpy!');
+      console.log(`Sentiment score: ${sentiment.score}`);
+    }
+    else if (sentiment.score < 0) {
+      console.log('Twumpy is gwumpy!');
+      console.log(`Sentiment score: ${sentiment.score}`);
+    }
+  })
+  .catch(err => {
+    console.error('ERROR:', err);
+  });
+}
+
+var cachedTweet = '';
+function checkMostRecentTweet() {
   const params = { screen_name: 'realDonaldTrump', count: 1 };
   client.get('statuses/user_timeline', params, (error, tweets, response) => {
-    if (!error) {
-      console.log(tweets[0].text);
+    if (!error && cachedTweet != tweets[0].text) {
+      cachedTweet = tweets[0].text;
+      analyzeText(cachedTweet);
+    }
+    else {
+      console.log("No new tweets.");
     }
   });
 }
-setInterval(alertUsersOfTweet, 1 * 1000);
+setInterval(checkMostRecentTweet, 1 * 1000);
 
 console.log(`listening on: ${port}`);
