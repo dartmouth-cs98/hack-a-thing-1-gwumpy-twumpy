@@ -3,7 +3,8 @@
 Anders Bando-Hess and Chris Bertasi - September 2018
 
 [Front-end Github](https://github.com/abandohess/trump-tweet-frontend)
-[Front-end](http://gwumpytwumpy.surge.sh/)
+
+[Front-end Landing Page](http://gwumpytwumpy.surge.sh/)
 
 ### Description
 Gwumpy Twumpy is a service that sends you a text message when Trump tweets something grumpy. We used Twitter's API to retrieve Trump's tweets and Google's Natural Language Processing API to detect when a tweet is grumpy. Finally, we used Twilio to send text messages.
