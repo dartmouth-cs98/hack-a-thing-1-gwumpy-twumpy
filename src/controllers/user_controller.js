@@ -52,7 +52,7 @@ export const createUser = (req, res, next) => {
 };
 
 export const deleteUser = (req, res, next) => {
-  const phoneNumber = req.body.phoneNumber;
+  const phoneNumber = req.params.phoneNumber;
 
   if (!phoneNumber) {
     return res.status(422).send('You must provide a phone number');
