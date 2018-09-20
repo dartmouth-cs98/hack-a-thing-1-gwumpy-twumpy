@@ -16,6 +16,15 @@ function sendWelcome(number) {
     .then((message) => { return console.log(message.sid); });
 }
 
+function sendGoodbye(number) {
+  client.messages.create({
+    body: 'You have unsubscribed from Gwumpy Twumpy. You will no longer receive updates whenever Trump is in a grumpy mood.',
+    to: `+1${number}`, // Text this number
+    from: '+19149082922', // From a valid Twilio number
+  })
+    .then((message) => { return console.log(message.sid); });
+}
+
 function sendMessage(number, text) {
   client.messages.create({
     body: text,
@@ -64,6 +73,7 @@ export const deleteUser = (req, res, next) => {
     } else {
       res.send('Successfully deleted phone number\n');
       console.log(`Deleted user with number ${phoneNumber}`);
+      sendGoodbye(phoneNumber);
     }
   });
 };
