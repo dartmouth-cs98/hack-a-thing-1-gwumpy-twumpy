@@ -34,7 +34,7 @@ export const createUser = (req, res, next) => {
 
   UserModel.findOne({ phoneNumber }).then((result) => {
     if (result != null) {
-      res.status(420).send('User already exists\n');
+      res.send('User already exists\n');
     } else {
       const newUser = new UserModel();
       newUser.phoneNumber = phoneNumber;
