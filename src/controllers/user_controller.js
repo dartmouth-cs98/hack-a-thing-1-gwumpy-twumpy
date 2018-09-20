@@ -52,6 +52,7 @@ export const createUser = (req, res, next) => {
 };
 
 export const deleteUser = (req, res, next) => {
+  console.log(req);
   const phoneNumber = req.params.phoneNumber;
 
   if (!phoneNumber) {
