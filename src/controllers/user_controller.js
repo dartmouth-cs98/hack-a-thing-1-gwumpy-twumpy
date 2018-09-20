@@ -63,7 +63,7 @@ export const deleteUser = (req, res, next) => {
       res.send(`Encountered error while deleting phone number${phoneNumber}\n`);
     } else {
       res.send('Successfully deleted phone number\n');
-      console.log(`Created user with number ${phoneNumber}`);
+      console.log(`Deleted user with number ${phoneNumber}`);
     }
   });
 };
