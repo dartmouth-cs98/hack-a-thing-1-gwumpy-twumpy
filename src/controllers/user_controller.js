@@ -52,8 +52,7 @@ export const createUser = (req, res, next) => {
 };
 
 export const deleteUser = (req, res, next) => {
-  console.log(req);
-  const phoneNumber = req.params.phoneNumber;
+  const phoneNumber = req.query.phoneNumber;
 
   if (!phoneNumber) {
     return res.status(422).send('You must provide a phone number');
